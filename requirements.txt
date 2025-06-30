@@ -2,3 +2,13 @@
 numpy==2.2.6
 pandas==2.2.3
 requests==2.32.3
+python-dotenv==1.0.1
+pymongo==4.13.0
+opentelemetry_api==1.33.1
+opentelemetry_sdk==1.33.1
+opentelemetry_semantic_conventions==0.54b1
+opentelemetry_proto==1.33.1
+googleapis_common_protos==1.70.0
+grpcio==1.71.0
+protobuf==5.29.4
+redis==6.2.0
