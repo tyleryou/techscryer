@@ -3,6 +3,9 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.timezone import make_aware
 from pytz import timezone
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 # Import from the new location (assuming you moved files)
 from py_scripts.bronze__ingest_igdb import main
