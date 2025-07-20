@@ -10,8 +10,6 @@ import requests
 import numpy
 
 """
-    This file is used for local testing/development.
-
     The purpose of this file is to extract game data since 2024 with releases in 2025 and up. This raw data 
     dumps into a MongoDB collection (bronze layer) and then flattens out into a PostgreSQL staging table (silver layer),
     finally the data will be modeled and ready for analytics using dbt into PostgreSQL production table (gold layer).

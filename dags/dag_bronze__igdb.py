@@ -33,7 +33,7 @@ with DAG(
     # This is how you "call" the task in Airflow
     # Just defining it here makes it part of the DAG
     ingest_task = PythonOperator(
-        task_id='ingest_igdb_data',
+        task_id='ingest_igdb',
         python_callable=main,
         execution_timeout=timedelta(minutes=30),
     )
