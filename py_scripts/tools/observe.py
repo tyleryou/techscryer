@@ -1,6 +1,6 @@
 from opentelemetry import trace, metrics
 from tools.encrypt import Encrypt
-import tools.env_loader as env
+from .tools import env_loader as env
 import logging
 from opentelemetry.trace import StatusCode
 from opentelemetry.sdk.trace import TracerProvider
@@ -14,8 +14,6 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.metrics import MeterProvider
 from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
-from dotenv import load_dotenv
-import os
 
 class Observe:
     def __init__(self, service_name):
