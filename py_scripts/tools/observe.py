@@ -1,5 +1,6 @@
 from opentelemetry import trace, metrics
 from tools.encrypt import Encrypt
+import tools.env_loader as env
 import logging
 from opentelemetry.trace import StatusCode
 from opentelemetry.sdk.trace import TracerProvider
@@ -20,8 +21,8 @@ class Observe:
     def __init__(self, service_name):
         load_dotenv()
         self.resource = Resource.create({"service.name": service_name})
-        self.headers = {'authorization': f'Bearer {os.getenv("OTEL_BEARER_TOKEN")}'}
-        self.encryptor = Encrypt(tls_cert_path=os.getenv('TLS_COLLECTOR_CERT_PATH'))
+        self.headers = {'authorization': f'Bearer {env.get_env("OTEL_BEARER_TOKEN")}'}
+        self.encryptor = Encrypt(tls_cert_path=env.get_env('TLS_COLLECTOR_CERT_PATH'))
         self.service_name = service_name
 
 class Tracer(Observe):
@@ -35,7 +36,7 @@ class Tracer(Observe):
         trace_provider.add_span_processor(
             BatchSpanProcessor(
                 OTLPSpanExporter(
-                    endpoint=f"{os.getenv('OTEL_COLLECTOR_HOST')}:{os.getenv('OTEL_COLLECTOR_PORT')}",
+                    endpoint=f"{env.get_env('OTEL_COLLECTOR_HOST')}:{env.get_env('OTEL_COLLECTOR_PORT')}",
                     headers=self.headers,
                     credentials=credentials
                 )
@@ -58,7 +59,7 @@ class Logger(Observe):
         logger_provider.add_log_record_processor(
             BatchLogRecordProcessor(
                 OTLPLogExporter(
-                    endpoint=f"{os.getenv('OTEL_COLLECTOR_HOST')}:{os.getenv('OTEL_COLLECTOR_PORT')}",
+                    endpoint=f"{env.get_env('OTEL_COLLECTOR_HOST')}:{env.get_env('OTEL_COLLECTOR_PORT')}",
                     headers=self.headers,
                     credentials=credentials
                 )
@@ -81,7 +82,7 @@ class Meter(Observe):
     def _setup_metrics(self):
         credentials = self.encryptor.get_tls_credentials()
         metric_exporter = OTLPMetricExporter(
-            endpoint=f"{os.getenv('OTEL_COLLECTOR_HOST')}:{os.getenv('OTEL_COLLECTOR_PORT')}",
+            endpoint=f"{env.get_env('OTEL_COLLECTOR_HOST')}:{env.get_env('OTEL_COLLECTOR_PORT')}",
             headers=self.headers,
             credentials=credentials
         )

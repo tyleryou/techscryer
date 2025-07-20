@@ -1,10 +1,9 @@
 import requests
 from tools.observe import Logger, Tracer, Meter
+import tools.env_loader as env
 from typing import Any, Literal
 from pymongo import MongoClient
-import os
 import time  # Added import
-from dotenv import load_dotenv
 
 class Pipeline:
     def __init__(self, base_url: str, service_name: str):
@@ -14,10 +13,6 @@ class Pipeline:
         self.tracer = Tracer(service_name).get_tracer()
         self.meter = Meter(service_name)
         self.logger.info(f'Pipeline: {service_name} - initialized with base URL: {base_url}')
-        
-        # Define metrics
-        
-        load_dotenv()
 
     def extract(self, endpoint: str, client_id: str, token: str, body_query: str) -> dict[str, Any] | None:
         with self.tracer.start_as_current_span('extract'):
@@ -82,12 +77,12 @@ class Pipeline:
                     self.meter.increment_connections()
                     
                     client = MongoClient(
-                        host=os.getenv('MONGO_HOST'),
-                        port=int(os.getenv('MONGO_PORT')),
-                        username=os.getenv('MONGO_USER'),
-                        password=os.getenv('MONGO_PW'),
+                        host=env.get_env('MONGO_HOST'),
+                        port=int(env.get_env('MONGO_PORT')),
+                        username=env.get_env('MONGO_USER'),
+                        password=env.get_env('MONGO_PW'),
                         tls=True,
-                        tlsCAFile=os.getenv('TLS_MONGO_CERT_PATH'),
+                        tlsCAFile=env.get_env('TLS_MONGO_CERT_PATH'),
                         authSource='admin'
                     )
                     
