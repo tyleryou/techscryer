@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from tools import env_loader as env
 from pymongo import MongoClient
 from urllib.parse import quote_plus
