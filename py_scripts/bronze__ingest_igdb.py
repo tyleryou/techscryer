@@ -1,8 +1,13 @@
-import tools.env_loader as env
-from tools.pipeline import Pipeline
-from tools.auth import Auth
-from tools.query import Query
-from tools.observe import Logger, Tracer, Meter
+import sys
+import os
+# Ensure module imports in local dev directory is similar to Airflow prod directory as dags/py_scripts/tools
+sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
+
+from py_scripts.tools import env_loader as env
+from py_scripts.tools.pipeline import Pipeline
+from py_scripts.tools.auth import Auth
+from py_scripts.tools.query import Query
+from py_scripts.tools.observe import Logger, Tracer, Meter
 import time
 from time import sleep
 import pandas as pd
