@@ -1,6 +1,6 @@
 from opentelemetry import trace, metrics
 from tools.encrypt import Encrypt
-from .tools import env_loader as env
+from tools import env_loader as env
 import logging
 from opentelemetry.trace import StatusCode
 from opentelemetry.sdk.trace import TracerProvider
@@ -17,7 +17,6 @@ from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExp
 
 class Observe:
     def __init__(self, service_name):
-        load_dotenv()
         self.resource = Resource.create({"service.name": service_name})
         self.headers = {'authorization': f'Bearer {env.get_env("OTEL_BEARER_TOKEN")}'}
         self.encryptor = Encrypt(tls_cert_path=env.get_env('TLS_COLLECTOR_CERT_PATH'))
