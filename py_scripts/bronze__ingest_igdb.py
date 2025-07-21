@@ -1,6 +1,8 @@
 import sys
 import os
-# Ensure module imports in local dev directory is similar to Airflow prod directory as dags/py_scripts/tools
+# Ensure module imports in local dev directory is similar to Airflow prod directory. 
+# For example, local dev runs python scripts directly from the py_scripts, 
+# but prod runs the Python scripts from dags/py_scripts
 sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
 
 from py_scripts.tools import env_loader as env
