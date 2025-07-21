@@ -19,6 +19,7 @@ sync_dag = DAG(
 
 sync_command = """
 cd /opt/airflow/dags
+git config --global --add safe.directory /opt/airflow/dags
 git reset --hard
 git clean -fd
 git fetch origin main
