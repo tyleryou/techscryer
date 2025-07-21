@@ -4,7 +4,6 @@ import os
 # For example, local dev runs python scripts directly from the py_scripts, 
 # but prod runs the Python scripts from dags/py_scripts
 sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
-
 from py_scripts.tools import env_loader as env
 from py_scripts.tools.pipeline import Pipeline
 from py_scripts.tools.auth import Auth

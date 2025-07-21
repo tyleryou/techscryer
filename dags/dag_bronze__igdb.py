@@ -1,14 +1,14 @@
+import sys
+import os
+# Ensure module imports in local dev directory is similar to Airflow prod directory. 
+# For example, local dev runs python scripts directly from the py_scripts, 
+# but prod runs the Python scripts from dags/py_scripts
+sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.timezone import make_aware
 from pytz import timezone
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-
-# Import from the new location (assuming you moved files)
-from py_scripts.bronze__ingest_igdb import main
 
 # Timezone setup
 central_tz = timezone('US/Central')
