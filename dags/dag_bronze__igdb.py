@@ -1,14 +1,9 @@
-import sys
-import os
-# Ensure module imports in local dev directory is similar to Airflow prod directory. 
-# For example, local dev runs python scripts directly from the py_scripts, 
-# but prod runs the Python scripts from dags/py_scripts
-sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.timezone import make_aware
 from pytz import timezone
+from py_scripts.bronze__ingest_igdb import main
 
 # Timezone setup
 central_tz = timezone('US/Central')
@@ -20,7 +15,7 @@ default_args = {
     'email_on_retry': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=2),
-    'start_date': make_aware(datetime(2025, 7, 20), central_tz),
+    'start_date': make_aware(datetime(2025, 7, 21), central_tz),
 }
 
 with DAG(
@@ -33,13 +28,8 @@ with DAG(
     max_active_runs=1,
 ) as dag:
 
-    # This is how you "call" the task in Airflow
-    # Just defining it here makes it part of the DAG
     ingest_task = PythonOperator(
         task_id='ingest_igdb',
         python_callable=main,
         execution_timeout=timedelta(minutes=30),
     )
-
-    # No explicit call needed - Airflow will execute it
-    # when the DAG runs
