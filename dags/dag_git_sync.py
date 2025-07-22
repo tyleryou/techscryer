@@ -19,13 +19,16 @@ sync_dag = DAG(
 
 sync_command = """
 cd /opt/airflow/dags
-git reset --hard
-git clean -fd
+git reset --hard HEAD
+git clean -fdx
 git fetch origin main
 git checkout origin/main -- dags/
-mv dags/* .
-rmdir dags/
-git checkout origin/main -- dags/py_scripts/
+
+if [ -d "dags/" ]; then
+    find dags/ -maxdepth 1 -type f -exec mv {} . \; 2>/dev/null || true
+    find dags/ -mindepth 1 -maxdepth 1 -type d -exec mv {} . \; 2>/dev/null || true
+    rmdir dags/ 2>/dev/null || true
+fi
 """
 
 sync_task = BashOperator(
