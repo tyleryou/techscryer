@@ -19,14 +19,8 @@ sync_dag = DAG(
 
 sync_command = """
 cd /opt/airflow/dags
-git config --global --add safe.directory /opt/airflow/dags
-git reset --hard
-git clean -fd
 git fetch origin main
-git checkout origin/main -- dags/
-mv dags/* .
-rmdir dags/
-git checkout origin/main -- py_scripts/
+git reset --hard origin/main
 """
 
 sync_task = BashOperator(
