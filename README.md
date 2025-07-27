@@ -1,0 +1,1 @@
+A full stack project involving observation tooling, ELT pipelines using the medallion (bronze, silver, gold) methodology, and a fully-fleshed out API that will deliver data into a React dashboard. Initially built on Twitch's IGDB data, with more tech media to come.
